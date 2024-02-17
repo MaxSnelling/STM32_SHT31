@@ -113,7 +113,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  uint16_t instruction = 0x2C06;
 	  uint8_t command_buffer[2] = {0x2C, 0x06};
 	  ret = HAL_I2C_Master_Transmit(&hi2c1, SHT31_ADD, command_buffer, 2, HAL_MAX_DELAY);
 	  if (ret != HAL_OK) {
@@ -125,32 +124,12 @@ int main(void)
 		} else {
 		    temp_raw = data[0] << 8 | data[1];
 		    temp_c = ((float)temp_raw * 175.0f / 65535.0f) - 45.0f;
-//		    sprintf((char*)msg2, "Temp: %u'C%\r\n", ((unsigned int)temp_c));
 
 		    humidity_raw = data[3] << 8 | data[4];
 		    humidity = ((float)humidity_raw * 100.0f / 65535.0f);
 		    sprintf((char*)msg2, "Temp: %.1f'C%, Humidity: %.1f%%\r\n", (temp_c), (humidity));
-//		    sprintf((char*)msg2, "Temperature: %.1f'C, Humidity: %.2f\r\n", temp_c, humidity);
 		}
 	  }
-
-//	HAL_UART_Transmit(&huart2, msg2, strlen((char*) msg2), 100);
-//	HAL_Delay(1000);
-//
-//	uint8_t command_buffer2[2] = {0x2C, 0x0D};
-//	  ret = HAL_I2C_Master_Transmit(&hi2c1, SHT31_ADD, command_buffer2, 2, HAL_MAX_DELAY);
-//	  if (ret != HAL_OK) {
-//		strcpy((char*)msg2, "Error 1\r\n");
-//	  } else {
-//		ret = HAL_I2C_Master_Receive(&hi2c1, SHT31_ADD, data, 3, HAL_MAX_DELAY);
-//		if (ret != HAL_OK) {
-//			strcpy((char*)msg2, "Error 2\r\n");
-//		} else {
-//		    humidity_raw = data[1] << 8 | data[2];
-//		    humidity = ((float)humidity_raw * 100.0f / 65535.0f);
-//		    sprintf((char*)msg2, "Humidity: %u%%\r\n", ((unsigned int)humidity));
-//		}
-//	  }
 
 	HAL_UART_Transmit(&huart2, msg2, strlen((char*) msg2), 100);
 	HAL_Delay(500);
